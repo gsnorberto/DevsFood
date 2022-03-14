@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
-
-import { Container,
-   CategoryArea,
-   CategoryList,
-   ProductArea,
-   ProductList
-} from './styled';
-
 import ReactTooltip from 'react-tooltip';
-
 import api from "../../api";
-
 import Header from "../../components/Header"
 import CategoryItem from '../../components/CategoryItem';
 import ProductItem from '../../components/ProductItem'
+import Modal from '../../components/Modal'
+import {
+   Container,
+   CategoryArea,
+   CategoryList,
+   ProductArea,
+   ProductList,
+   ProductPaginationArea,
+   ProductPaginationItem
+} from './styled';
+
+
+let searchTimer = null;
 
 export default () => {
    const history = useHistory();
@@ -22,14 +25,20 @@ export default () => {
    const [categories, setCategories] = useState([]);
    const [activeCategory, setActiveCategory] = useState(0);
    const [products, setProducts] = useState([]);
+   const [totalPages, setTotalPages] = useState(0);
+   const [activePage, setActivePage] = useState(1);
+   const [activeSearch, setActiveSearch] = useState('');
+   const [modalStatus, setModalStatus] = useState(true);
 
+   //Obter lista de produtos atualizada, total de página páginas e página atual.
    const getProducts = async () => {
-      const prods = await api.getProducts();
-      
+      const prods = await api.getProducts(activeCategory, activePage, activeSearch);
+
       if (prods.error == '') {
          setProducts(prods.result.data);
+         setTotalPages(prods.result.pages);
+         setActivePage(prods.result.page)
       }
-      
    }
 
    //Obter Lista de Categorias
@@ -47,14 +56,26 @@ export default () => {
       getCategories();
    }, []);
 
+   //Chama função de obter lista de produtos acima.
    useEffect(() => {
+      setProducts([]);
       getProducts();
-   }, [activeCategory]);
+   }, [activeCategory, activePage, activeSearch]);
+
+   //Quando o usuário digita na caixa de pesquisa
+   useEffect(() => {
+      clearTimeout(searchTimer);
+
+      searchTimer = setTimeout(() => {
+         setActiveSearch(headerSearch);
+      }, 2000)
+   }, [headerSearch]);
 
    return (
       <Container>
          <Header search={headerSearch} onSearch={setHeaderSearch} />
 
+         {/* LISTA DE CATEGORIAS */}
          {categories.length > 0 &&
             <CategoryArea>
                Selecione uma categoria
@@ -81,6 +102,7 @@ export default () => {
             </CategoryArea>
          }
 
+         {/* LISTA DE PRODUTOS */}
          {products.length > 0 &&
             <ProductArea>
                <ProductList>
@@ -93,6 +115,29 @@ export default () => {
                </ProductList>
             </ProductArea>
          }
+
+         {/* PAGINAÇÃO */}
+         {totalPages > 0 &&
+            <ProductPaginationArea>
+               {/* Cria um array com qnt. de posições = qnt. total de páginas, e preenche todos as posições com o valor "0" */}
+               {Array(totalPages).fill(0).map((item, index) => (
+                  <ProductPaginationItem
+                     key={item}
+                     active={activePage}
+                     current={index + 1}
+                     onClick={() => setActivePage(index + 1)}
+                  >
+                     {index + 1}
+                  </ProductPaginationItem>
+               ))}
+            </ProductPaginationArea>
+         }
+
+         {/* MODAL */}
+         <Modal status={modalStatus}>
+            Conteúdo do Modal
+         </Modal>
+
       </Container>
    );
 }
