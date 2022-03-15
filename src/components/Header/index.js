@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Logo, SearchInput } from "./styled"
 
 
@@ -12,7 +12,7 @@ export default ( {search, onSearch} ) => {
    
 
    const handleInputBlur = () => {
-      if(search == ''){
+      if(search === ''){
          setinputActive(false);
       }
    }

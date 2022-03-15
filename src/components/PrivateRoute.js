@@ -6,7 +6,7 @@ export default ({ children, ...rest }) => {
    const token = useSelector(state => state.user.token);
    const history = useHistory();
 
-   if(!token || token == ''){
+   if(!token || token === ''){
       history.push('/login');
       return null;
    }

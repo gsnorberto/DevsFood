@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from "react-router-dom";
 import ReactTooltip from 'react-tooltip';
 import api from "../../api";
 import Header from "../../components/Header"
@@ -15,12 +14,12 @@ import {
    ProductPaginationArea,
    ProductPaginationItem
 } from './styled';
+import ModalProduct from '../../components/ModalProduct';
 
 
 let searchTimer = null;
 
 export default () => {
-   const history = useHistory();
    const [headerSearch, setHeaderSearch] = useState('');
    const [categories, setCategories] = useState([]);
    const [activeCategory, setActiveCategory] = useState(0);
@@ -28,17 +27,23 @@ export default () => {
    const [totalPages, setTotalPages] = useState(0);
    const [activePage, setActivePage] = useState(1);
    const [activeSearch, setActiveSearch] = useState('');
-   const [modalStatus, setModalStatus] = useState(true);
+   const [modalStatus, setModalStatus] = useState(false);
+   const [modalData, setModalData] = useState({});
 
    //Obter lista de produtos atualizada, total de página páginas e página atual.
    const getProducts = async () => {
       const prods = await api.getProducts(activeCategory, activePage, activeSearch);
 
-      if (prods.error == '') {
+      if (prods.error === '') {
          setProducts(prods.result.data);
          setTotalPages(prods.result.pages);
          setActivePage(prods.result.page)
       }
+   }
+
+   const handleProductClick = (data) => {
+      setModalData(data);
+      setModalStatus(true);
    }
 
    //Obter Lista de Categorias
@@ -46,7 +51,7 @@ export default () => {
       const getCategories = async () => {
          const cat = await api.getCategories();
 
-         if (cat.error == '') {
+         if (cat.error === '') {
             setCategories(cat.result)
          }
 
@@ -110,6 +115,7 @@ export default () => {
                      <ProductItem
                         key={index}
                         data={item}
+                        onClick={handleProductClick}
                      />
                   ))}
                </ProductList>
@@ -134,8 +140,8 @@ export default () => {
          }
 
          {/* MODAL */}
-         <Modal status={modalStatus}>
-            Conteúdo do Modal
+         <Modal status={modalStatus} setStatus={setModalStatus}>
+            <ModalProduct data={modalData}/>
          </Modal>
 
       </Container>
