@@ -1,32 +1,32 @@
-import React from 'react';
-import { useHistory, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
-import { Container, Titulo } from './styled';
+// import React from 'react';
+// import { useHistory, useParams } from "react-router-dom";
+// import { useSelector, useDispatch } from 'react-redux';
+// import { Container, Titulo } from './styled';
 
-export default () => {
-    const history = useHistory();
-    const dispatch = useDispatch();
+// export default () => {
+//     const history = useHistory();
+//     const dispatch = useDispatch();
 
-    let { nome } = useParams();
+//     let { nome } = useParams();
 
-    const name = useSelector(state => state.user.name);
+//     const name = useSelector(state => state.user.name);
 
-    const handleTextChange = (e) => {
-        dispatch({
-            type: 'SET_NAME',
-            payload:{
-                name: e.target.value
-            }
-        });
-    }
+//     const handleTextChange = (e) => {
+//         dispatch({
+//             type: 'SET_NAME',
+//             payload:{
+//                 name: e.target.value
+//             }
+//         });
+//     }
 
-    return (
-        <Container>
-            <Titulo>Tela2 de {nome}</Titulo>
+//     return (
+//         <Container>
+//             <Titulo>Tela2 de {nome}</Titulo>
 
-            <input type="text" value={name} onChange={handleTextChange} />
+//             <input type="text" value={name} onChange={handleTextChange} />
 
-            <button onClick={()=>history.goBack()}>Voltar</button>
-        </Container>
-    );
-}
+//             <button onClick={()=>history.goBack()}>Voltar</button>
+//         </Container>
+//     );
+// }

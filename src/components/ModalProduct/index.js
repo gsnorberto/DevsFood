@@ -18,13 +18,13 @@ import {
    ProductPrice
 } from "./styled";
 
-export default ({ data, setStatus }) => {
+export default ({ data, status, setStatus }) => {
    const dispatch = useDispatch();
    const [qt, setQt] = useState(1);
 
    useEffect(() => {
       setQt(1);
-   }, [setStatus]);
+   }, [status]);
 
    const handleCancelButton = () => {
       setStatus(false)

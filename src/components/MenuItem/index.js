@@ -10,11 +10,17 @@ export default ({ title, icon, link }) => {
 
    const handleLinkClick = (e) => {
       e.preventDefault();
-      history.push( link )
+      history.push(link)
    }
-   
-   return(
-      <LinkArea data-tip={title} data-for="tip-right" active={isActive} href={link} onClick={handleLinkClick}>
+
+   return (
+      <LinkArea
+         data-tip={title}
+         data-for="tip-right"
+         active={isActive}
+         href={link}
+         onClick={handleLinkClick}
+      >
          <LinkIcon src={icon} />
       </LinkArea>
    );

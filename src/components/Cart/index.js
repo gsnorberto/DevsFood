@@ -43,6 +43,7 @@ export default () => {
                <CartIcon src="/assets/down.png" />
             }
          </CartHeader>
+         
          <CartBody show={show}>
             <ProductsArea>
                {products.map((product, index) => (

@@ -1,6 +1,6 @@
 const initialState = {
    products: [],
-   address:[],
+   address: [],
    discount: 0,
    delivery: 0
 };
@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
          let id = action.payload.data.id
          let index = products.findIndex(item => item.id === id)
 
-         if(index > -1){
+         if(index > -1){ // Acrescentar quantidade de um item já existente no carrinho
             products[index].qt += action.payload.qt
          } else {
             products.push({ //Adiciona o produto e a quantidade em um único objeto

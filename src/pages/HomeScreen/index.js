@@ -5,6 +5,7 @@ import Header from "../../components/Header"
 import CategoryItem from '../../components/CategoryItem';
 import ProductItem from '../../components/ProductItem'
 import Modal from '../../components/Modal'
+import ModalProduct from '../../components/ModalProduct';
 import {
    Container,
    CategoryArea,
@@ -14,8 +15,6 @@ import {
    ProductPaginationArea,
    ProductPaginationItem
 } from './styled';
-import ModalProduct from '../../components/ModalProduct';
-
 
 let searchTimer = null;
 
@@ -141,9 +140,8 @@ export default () => {
 
          {/* MODAL */}
          <Modal status={modalStatus} setStatus={setModalStatus}>
-            <ModalProduct data={modalData} setStatus={setModalStatus}/>
+            <ModalProduct data={modalData} status={modalStatus} setStatus={setModalStatus}/>
          </Modal>
-
       </Container>
    );
 }

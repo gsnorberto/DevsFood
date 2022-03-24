@@ -1,19 +1,17 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { useSelector } from 'react-redux';
 import ReactTooltip from 'react-tooltip';
 
 import { Container, Menu, PageBody } from './AppStyled';
+
 import MenuItem from './components/MenuItem'
 import PrivateRoute from './components/PrivateRoute';
+import Cart from './components/Cart'
 
 import HomeScreen from './pages/HomeScreen';
 import Tela2Screen from './pages/Tela2Screen';
-import Cart from './components/Cart'
 
 export default () => {
-   const name = useSelector(state => state.user.name);
-
    return (
       <BrowserRouter>
          <Container>
@@ -26,7 +24,7 @@ export default () => {
             <PageBody>
                <Switch>
                   <Route exact path="/">
-                     <HomeScreen />
+                     <HomeScreen /> {/** PAREI AQUI */}
                   </Route>
                   <PrivateRoute path='/orders'>
                      <div>TELA DE PERDIDOS</div>
